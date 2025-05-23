@@ -2,19 +2,16 @@ import { styled } from "styled-components";
 
 export const Categories = styled.div`
   display: flex;
-  gap: 1rem;
   flex-wrap: wrap;
-  border-bottom: 1px solid var(--color-border-grey-300);
-  margin-bottom: 10px;
-  padding-block: 10px;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-neutral-200);
 `;
 
 export const Category = styled.div`
-  border: 1px solid var(--color-border-grey-300);
-  border-radius: 5px;
-  background-color: var(--color-category-background-grey-300);
-  margin-bottom: 5px;
-  border-bottom: 2px solid var(--color-border-grey-300);
-  padding-inline: 1rem;
-  padding-block: 0.25rem;
+  background-color: var(--color-neutral-200);
+  border-radius: var(--radius-sm);
+  padding: var(--space-1) var(--space-2);
+  font-size: 0.75rem;
 `;

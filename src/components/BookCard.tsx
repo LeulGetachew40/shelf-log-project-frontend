@@ -26,39 +26,46 @@ const BookCard = ({
   categories: string[];
 }) => {
   const StyledCardContainer = styled.div`
-    border: 1px solid var(--color-border-grey-300);
-    border-radius: 5px;
-    background-color: var(--color-bookcard-background-grey-50);
+    background-color: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: var(--space-6);
+    transition: transform var(--transition-normal),
+      box-shadow var(--transition-normal);
 
-    padding: 2rem;
-
-    display: flex;
-    flex-direction: column;
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
   `;
 
   const CardHeader = styled.div`
     display: flex;
     justify-content: space-between;
-    align-items: start;
-    gap: 1rem;
-    margin-bottom: 0.5rem;
+    align-items: flex-start;
+    margin-bottom: var(--space-4);
   `;
 
-  const Title = styled.h3``;
+  const Title = styled.h3`
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-neutral-900);
+    margin-right: var(--space-2);
+  `;
 
   const Status = styled.div<StatusProps>`
+    font-size: 0.875rem;
     font-weight: 600;
-    font-size: 1rem;
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-sm);
     text-align: center;
-    width: 25%;
-    border: 1px solid var(--color-border-grey-300);
-    border-radius: 5px;
-    padding: 0.25rem;
+    min-width: 80px;
     ${({ readStatus }) => statusStyles[readStatus]}
   `;
 
   const Author = styled.p`
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--space-4);
+    font-size: 0.875rem;
 
     & > span {
       font-weight: 600;
@@ -72,33 +79,43 @@ const BookCard = ({
 
   const ChangeReadStatus = styled.div`
     display: flex;
-    gap: 1rem;
+    gap: var(--space-2);
   `;
   const StatusButton = styled.button<StatusProps>`
-    border-radius: 5px;
-    border: 0px;
-    color: #333333;
-    font-weight: 500;
+    font-size: 0.75rem;
+    padding: var(--space-1) var(--space-2);
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: opacity var(--transition-fast);
     ${({ readStatus }) => statusStyles[readStatus]}
+
+    & :hover {
+      opacity: 0.8;
+    }
   `;
 
   const StyledButton = styled.button`
-    height: 2rem;
-    width: 3rem;
     background: none;
     border: none;
-    & > svg {
-      font-size: 1.5rem;
-    }
+    cursor: pointer;
+    font-size: 1.25rem;
+    transition: color var(--transition-fast);
   `;
+
+  const ViewOrDeleteButtons = styled.div`
+    display: flex;
+    gap: var(--space-2);
+  `;
+
   const DeleteBook = styled(StyledButton)`
     & :hover {
-      color: red;
+      color: var(--color-error-500);
     }
   `;
   const ShowBookDetail = styled(StyledButton)`
     & :hover {
-      color: deepskyblue;
+      color: var(--color-primary-500);
     }
   `;
 
@@ -161,7 +178,7 @@ const BookCard = ({
             </>
           )}
         </ChangeReadStatus>
-        <div>
+        <ViewOrDeleteButtons>
           <ShowBookDetail onClick={() => navigate(`/books/${id}`)}>
             <MdOutlineRemoveRedEye />
           </ShowBookDetail>
@@ -171,7 +188,7 @@ const BookCard = ({
           >
             <CiTrash />
           </DeleteBook>
-        </div>
+        </ViewOrDeleteButtons>
       </CardFooter>
     </StyledCardContainer>
   );

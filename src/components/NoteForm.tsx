@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { styled } from "styled-components";
 import useUpdateNote from "../hooks/useUpdateNote";
+import { CancelEditButton, ConfirmEditButton } from "../styles/formButtons";
 
 const NoteForm = ({
   formMode,
@@ -20,14 +21,12 @@ const NoteForm = ({
     flex-direction: column;
     gap: 1rem;
 
-    & > button {
-      padding-block: 1rem;
-    }
     & > textarea {
       padding: 1rem;
       font-size: 1.5rem;
     }
   `;
+
   const { register, handleSubmit } = useForm<{ content: string }>({
     defaultValues: { content: noteContent },
   });
@@ -46,8 +45,8 @@ const NoteForm = ({
         id={formMode}
         {...register("content")}
       ></textarea>
-      <button onClick={() => hideEditForm()}>Cancel</button>
-      <button type="submit">Edit Note</button>
+      <CancelEditButton onClick={() => hideEditForm()}>Cancel</CancelEditButton>
+      <ConfirmEditButton type="submit">Edit Note</ConfirmEditButton>
     </StyledNoteForm>
   );
 };

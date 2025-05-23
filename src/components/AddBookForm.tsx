@@ -8,15 +8,15 @@ import { useShowAddBookForm } from "../contexts/ShowAddBookContext";
 
 const AddBookForm = () => {
   const AddBookContainer = styled.div`
-    border: 1px solid var(--color-border-grey-300);
+    border: 1px solid var(--color-neutral-400);
     border-radius: 5px;
     margin-bottom: 2rem;
-    padding: 30px;
+    padding: 2rem;
   `;
   const AddBookFormHeader = styled.div`
     border-top-right-radius: 5px;
     border-top-left-radius: 5px;
-    background-color: var(--color-category-background-grey-300);
+    background-color: var(--color-neutral-400);
     padding: 2rem;
   `;
   const FormContent = styled.div`
@@ -24,7 +24,7 @@ const AddBookForm = () => {
     display: flex;
     justify-content: end;
     flex-direction: column;
-    width: 70%;
+    /* width: 70%; */
     & > div {
       display: flex;
       justify-content: space-between;
@@ -42,10 +42,25 @@ const AddBookForm = () => {
     gap: 2rem;
     & > button {
       padding: 1rem;
-      background: none;
       border: none;
       cursor: pointer;
+      transition: background-color var(--transition-fast),
+        transform var(--transition-fast);
+      border-radius: 5px;
     }
+
+    & > button:hover {
+      transform: translateY(-2px);
+    }
+  `;
+
+  const CancelButton = styled.button`
+    background-color: var(--color-neutral-500);
+    color: var(--color-neutral-900);
+  `;
+  const AddButton = styled.button`
+    background-color: var(--color-primary-500);
+    color: white;
   `;
 
   const [readStatus, setReadStatus] = useState<
@@ -153,12 +168,12 @@ const AddBookForm = () => {
           </div>
         </FormContent>
         <ActionButtons>
-          <button type="reset" onClick={() => toggleShowForm()}>
+          <CancelButton type="reset" onClick={() => toggleShowForm()}>
             Cancel
-          </button>
-          <button disabled={creatingBook} type="submit">
+          </CancelButton>
+          <AddButton disabled={creatingBook} type="submit">
             Add Book
-          </button>
+          </AddButton>
         </ActionButtons>
       </AddBookContainer>
     </form>

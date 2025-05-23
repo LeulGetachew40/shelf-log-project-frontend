@@ -2,23 +2,32 @@ import { useSearchParams } from "react-router-dom";
 import styled, { css } from "styled-components";
 
 const StyledFilter = styled.div`
-  border: 1px solid var(--color-grey-300);
-  background-color: var(--color-bookcard-background-grey-50);
-  box-shadow: var(--shadow-sm);
-  border-radius: var(--border-radius-sm);
-  padding: 0.4rem;
   display: flex;
-  gap: 0.4rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+
+  @media (min-width: 768px) {
+    & {
+      justify-content: flex-end;
+    }
+  }
 `;
 
 const StyledFilterButton = styled.button<{ active: string }>`
-  background-color: var(--color-filter-button-grey-500);
+  background-color: var(--color-neutral-300);
   border: none;
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-4);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color var(--transition-fast),
+    color var(--transition-fast);
   ${(props) =>
     props.active === "true" &&
     css`
-      background-color: var(--color-filter-button-grey-300);
-      color: #333;
+      background-color: var(--color-primary-500);
+      color: var(--color-neutral-50);
     `}
 
   border-radius: 5px;
@@ -29,7 +38,7 @@ const StyledFilterButton = styled.button<{ active: string }>`
   transition: all 0.3s;
 
   &:hover:not(:disabled) {
-    background-color: var(--color-filter-button-grey-300);
+    background-color: var(--color-primary-500);
     color: var(--color-brand-50);
     cursor: pointer;
   }

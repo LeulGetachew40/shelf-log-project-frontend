@@ -12,17 +12,25 @@ const BookList = () => {
 
   const StyledBookList = styled.div`
     display: grid;
-    grid-template-columns: repeat(1, minmax(0, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+    margin-bottom: var(--space-8);
 
     @media (min-width: 768px) {
       & {
-        grid-template-columns: repeat(6, 1fr);
+        grid-template-columns: repeat(2, 1fr);
       }
     }
-    @media (min-width: 1024px) {
+
+    @media (min-width: 992px) {
       & {
         grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (min-width: 1200px) {
+      & {
+        grid-template-columns: repeat(4, 1fr);
       }
     }
   `;

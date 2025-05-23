@@ -5,12 +5,28 @@ import { useShowAddBookForm } from "../contexts/ShowAddBookContext";
 const AddBookButton = () => {
   const AddBookDiv = styled.div`
     & > button {
-      padding: 0.5rem;
-      background-color: var(--color-filter-button-grey-500);
-      border: none;
-      cursor: pointer;
-      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      background-color: var(--color-primary-500);
       color: white;
+      border: none;
+      border-radius: var(--radius-md);
+      padding: var(--space-3) var(--space-5);
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color var(--transition-fast),
+        transform var(--transition-fast);
+    }
+
+    & > button:hover {
+      background-color: var(--color-primary-600);
+      transform: translateY(-2px);
+    }
+
+    &:active {
+      transform: translateY(0);
     }
   `;
 

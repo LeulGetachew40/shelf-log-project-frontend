@@ -16,6 +16,7 @@ import NoteForm from "./NoteForm";
 import useUpdateNote from "../hooks/useUpdateNote";
 import { MdEdit } from "react-icons/md";
 import { CiTrash } from "react-icons/ci";
+import { ConfirmEditButton } from "../styles/formButtons";
 
 const BookDetail = () => {
   const StyledBookDetail = styled.div`
@@ -67,7 +68,7 @@ const BookDetail = () => {
     margin-block: 2.5rem;
     padding: 2rem;
     padding-top: 1rem;
-    background-color: var(--color-notes-background-zinc-100);
+    background-color: var(--color-accent-100);
 
     & > h5 {
       margin-bottom: 1rem;
@@ -105,9 +106,9 @@ const BookDetail = () => {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    & > button {
-      padding: 1rem;
-    }
+    background-color: var(--color-neutral-200);
+    padding: 2rem;
+    margin-block: 2rem;
     & > textarea {
       font-size: 1.5rem;
     }
@@ -120,7 +121,7 @@ const BookDetail = () => {
 
     & > button {
       padding: 0.5rem;
-      background-color: var(--color-category-background-grey-300);
+      background-color: var(--color-accent-300);
       border: none;
       border-radius: 5px;
       cursor: pointer;
@@ -148,6 +149,7 @@ const BookDetail = () => {
   const { deleteNoteAsync, isPending: deletingNote } = useDeleteNote();
   const { isPending: editingNote } = useUpdateNote();
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [editedNote, setEditedNote] = useState<string>();
 
   function hideEditForm() {
@@ -225,9 +227,9 @@ const BookDetail = () => {
                   placeholder="tell us what you found interesting today..."
                   {...register("content")}
                 />
-                <button type="submit" disabled={creatingNote}>
+                <ConfirmEditButton type="submit" disabled={creatingNote}>
                   Add Note
-                </button>
+                </ConfirmEditButton>
               </NotesForm>
             )}
             <div>

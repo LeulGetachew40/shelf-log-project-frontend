@@ -8,7 +8,7 @@ const FilterSortAdd = () => {
     justify-content: end;
     align-items: center;
     gap: 2rem;
-    margin-block: 2rem;
+    margin-block: 1rem;
   `;
 
   return (
