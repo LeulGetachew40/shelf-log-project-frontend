@@ -152,7 +152,6 @@ const BookDetail = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [editedNote, setEditedNote] = useState<string>();
 
-  console.log(editedNote)
   function hideEditForm() {
     setShowEditNotesForm(false);
     setEditedNoteId(null);
