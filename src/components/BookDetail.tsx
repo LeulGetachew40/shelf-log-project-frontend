@@ -7,7 +7,6 @@ import { IoMdAdd, IoIosRemove } from "react-icons/io";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaChevronLeft } from "react-icons/fa";
-import Spinner from "./Spinner";
 import useCreateNote from "../hooks/useCreateNote";
 import { useForm } from "react-hook-form";
 import useNotes from "../hooks/useNotes";
@@ -17,12 +16,11 @@ import useUpdateNote from "../hooks/useUpdateNote";
 import { MdEdit } from "react-icons/md";
 import { CiTrash } from "react-icons/ci";
 import { ConfirmEditButton } from "../styles/formButtons";
+import Loader from "./Loader";
 
 const BookDetail = () => {
   const StyledBookDetail = styled.div`
-    border: 1px solid var(--color-border-grey-300);
-    border-radius: 5px;
-    padding: 3rem;
+    padding: 2rem;
     display: flex;
     flex-direction: column;
 
@@ -32,10 +30,8 @@ const BookDetail = () => {
     }
   `;
   const ContainerHeader = styled.div`
-    border: 1px solid var(--color-border-grey-300);
     border-radius: 5px;
-    padding: 3rem;
-    background-color: var(--color-bookcard-background-grey-50);
+    padding-bottom: 3rem;
   `;
 
   const Author = styled.p`
@@ -128,13 +124,6 @@ const BookDetail = () => {
     }
   `;
 
-  const SpinnerContainer = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-top: 4rem;
-  `;
-
   const { book, bookLoading } = useSingleBook();
   const { createNoteAsync, creatingNote } = useCreateNote();
 
@@ -145,7 +134,7 @@ const BookDetail = () => {
   const [editedNoteId, setEditedNoteId] = useState<number | null>(null);
   const navigate = useNavigate();
 
-  const { handleSubmit, register } = useForm<{ content: string }>();
+  const { handleSubmit, register, reset } = useForm<{ content: string }>();
 
   const { deleteNoteAsync, isPending: deletingNote } = useDeleteNote();
   const { isPending: editingNote } = useUpdateNote();
@@ -159,12 +148,7 @@ const BookDetail = () => {
     setEditedNoteId(null);
   }
 
-  if (bookLoading || !book)
-    return (
-      <SpinnerContainer>
-        <Spinner />
-      </SpinnerContainer>
-    );
+  if (bookLoading || !book) return <Loader />;
 
   return (
     <>
@@ -215,7 +199,7 @@ const BookDetail = () => {
                   async ({ content }: { content: string }) => {
                     if (!id) throw new Error("Book Id unavailable");
                     await createNoteAsync({ content, bookId: id });
-
+                    reset();
                     return setShowAddNotesForm(false);
                   }
                 )}
@@ -240,7 +224,10 @@ const BookDetail = () => {
                   <>
                     <NoteContent>
                       <NoteHeader>
-                        <h5>{note.createdAt.split("T")[0]}</h5>
+                        <h5>
+                          {new Date(note.createdAt).toDateString()} (
+                          {new Date(note.createdAt).toLocaleTimeString()})
+                        </h5>
                         <div>
                           {editedNoteId === note.id || (
                             <button

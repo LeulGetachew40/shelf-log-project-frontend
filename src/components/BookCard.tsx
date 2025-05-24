@@ -26,13 +26,16 @@ const BookCard = ({
   categories: string[];
 }) => {
   const StyledCardContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
     background-color: white;
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-sm);
     padding: var(--space-6);
     transition: transform var(--transition-normal),
       box-shadow var(--transition-normal);
-
     &:hover {
       transform: translateY(-4px);
       box-shadow: var(--shadow-md);
@@ -140,18 +143,20 @@ const BookCard = ({
 
   return (
     <StyledCardContainer>
-      <CardHeader>
-        <Title>{title}</Title>
-        <Status readStatus={readStatus}>{readStatusMap[readStatus]}</Status>
-      </CardHeader>
-      <Author>
-        by <span>{author}</span>
-      </Author>
-      <Categories>
-        {categories.map((category) => (
-          <Category>{category}</Category>
-        ))}
-      </Categories>
+      <div>
+        <CardHeader>
+          <Title>{title}</Title>
+          <Status readStatus={readStatus}>{readStatusMap[readStatus]}</Status>
+        </CardHeader>
+        <Author>
+          by <span>{author}</span>
+        </Author>
+        <Categories>
+          {categories.map((category) => (
+            <Category>{category}</Category>
+          ))}
+        </Categories>
+      </div>
       <CardFooter>
         <ChangeReadStatus>
           {udpatingBook ? (

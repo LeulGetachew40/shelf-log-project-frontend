@@ -31,13 +31,16 @@ const AddBookForm = () => {
       flex-direction: column;
       gap: 2rem;
       margin-block: 1rem;
-      & > input {
+      & input {
         padding-block: 0.5rem;
         @media (min-width: 576px) {
           & {
             width: 50%;
           }
         }
+      }
+      & span {
+        color: var(--color-error-500);
       }
       @media (min-width: 576px) {
         & {

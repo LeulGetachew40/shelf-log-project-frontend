@@ -2,8 +2,8 @@ import { styled } from "styled-components";
 import BookCard from "./BookCard";
 import EmptyList from "./EmptyList";
 import useBooks from "../hooks/useBooks";
-import Spinner from "./Spinner";
 import useFilterBooks from "../hooks/useFilterBooks";
+import Loader from "./Loader";
 
 const BookList = () => {
   const { books, booksLoading } = useBooks();
@@ -35,18 +35,7 @@ const BookList = () => {
     }
   `;
 
-  const SpinnerContainer = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  `;
-
-  if (booksLoading)
-    return (
-      <SpinnerContainer>
-        <Spinner />
-      </SpinnerContainer>
-    );
+  if (booksLoading) return <Loader />;
 
   if ((filteredBooks || []).length === 0) return <EmptyList />;
 

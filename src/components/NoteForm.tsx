@@ -33,6 +33,8 @@ const NoteForm = ({
 
   const { editNoteAsync } = useUpdateNote();
   async function onSubmit({ content }: { content: string }) {
+    if (content === noteContent) return hideEditForm();
+
     await editNoteAsync({ content, bookId, noteId });
     hideEditForm();
   }

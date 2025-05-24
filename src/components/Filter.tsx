@@ -19,8 +19,10 @@ const StyledFilterButton = styled.button<{ active: string }>`
   border: none;
   border-radius: var(--radius-md);
   padding: var(--space-2) var(--space-4);
-  font-weight: 500;
+  font-weight: 100;
+  font-size: 8px;
   cursor: pointer;
+  font-family: "Roboto Mono";
   transition: background-color var(--transition-fast),
     color var(--transition-fast);
   ${(props) =>
