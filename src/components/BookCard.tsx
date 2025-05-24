@@ -90,6 +90,15 @@ const BookCard = ({
     transition: opacity var(--transition-fast);
     ${({ readStatus }) => statusStyles[readStatus]}
 
+    ${({ readStatus: readStatusOnButton }) =>
+      readStatus === readStatusOnButton
+        ? css`
+            opacity: 1;
+          `
+        : css`
+            opacity: 0.7;
+          `}
+
     & :hover {
       opacity: 0.8;
     }
