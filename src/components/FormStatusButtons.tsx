@@ -1,11 +1,15 @@
-import { styled } from "styled-components";
+import { css, styled } from "styled-components";
 import { statusStyles, type StatusProps } from "../styles/statusStyles";
 
 const FormStatusButtons = ({
+  readStatus,
   setStatus,
 }: {
+  readStatus: "toRead" | "reading" | "completed";
   setStatus: (readStatus: "toRead" | "reading" | "completed") => void;
 }) => {
+  console.log(readStatus);
+
   const StyledFormStatusButtons = styled.div`
     display: flex;
     align-items: center;
@@ -17,9 +21,18 @@ const FormStatusButtons = ({
     border: 0px;
     font-weight: 500;
     padding: 0.5rem;
+
     cursor: pointer;
 
     ${({ readStatus }) => statusStyles[readStatus]}
+    ${({ readStatus: readStatusOnButton }) =>
+      readStatus === readStatusOnButton
+        ? css`
+            opacity: 1;
+          `
+        : css`
+            opacity: 0.7;
+          `}
   `;
 
   return (

@@ -2,7 +2,6 @@ import { styled } from "styled-components";
 import { ImBooks } from "react-icons/im";
 const Empty = () => {
   const EmptyList = styled.div`
-    border: 1px solid var(--color-border-grey-300);
     border-radius: 5px;
     padding: 3rem;
     display: flex;

@@ -175,7 +175,10 @@ const AddBookForm = () => {
           </div>
           <div>
             <label htmlFor="readStatus">Book Read Status</label>
-            <FormStatusButtons setStatus={setReadStatus} />
+            <FormStatusButtons
+              readStatus={readStatus}
+              setStatus={setReadStatus}
+            />
           </div>
         </FormContent>
         <ActionButtons>
