@@ -132,6 +132,7 @@ const BookDetail = () => {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding-top: 4rem;
   `;
 
   const { book, bookLoading } = useSingleBook();
