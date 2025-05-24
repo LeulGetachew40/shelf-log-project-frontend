@@ -15,9 +15,6 @@ const HomePage = () => {
   `;
 
   const StyledControls = styled.div`
-    display: flex;
-    justify-content: center;
-
     @media (min-width: 576px) {
       & {
         flex-direction: row;

@@ -6,10 +6,15 @@ const FormStatusButtons = ({
 }: {
   setStatus: (readStatus: "toRead" | "reading" | "completed") => void;
 }) => {
+  const StyledFormStatusButtons = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  `;
+
   const StatusButton = styled.button<StatusProps>`
     border-radius: 5px;
     border: 0px;
-    color: #333333;
     font-weight: 500;
     padding: 0.5rem;
     cursor: pointer;
@@ -18,7 +23,7 @@ const FormStatusButtons = ({
   `;
 
   return (
-    <>
+    <StyledFormStatusButtons>
       <StatusButton readStatus="toRead" onClick={() => setStatus("toRead")}>
         To Read
       </StatusButton>
@@ -31,7 +36,7 @@ const FormStatusButtons = ({
       >
         Completed
       </StatusButton>
-    </>
+    </StyledFormStatusButtons>
   );
 };
 
