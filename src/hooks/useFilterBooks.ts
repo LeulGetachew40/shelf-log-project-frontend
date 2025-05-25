@@ -29,10 +29,10 @@ const useFilterBooks = (books: books) => {
       break;
 
     default:
-      throw new Error("Invalid filter value");
+      return { error: new Error("Invalid filter value!"), filterBooks: null };
   }
 
-  return [filterBooks];
+  return { error: null, filterBooks };
 };
 
 export default useFilterBooks;

@@ -33,9 +33,22 @@ export async function getAllBooks() {
 }
 
 export async function getBookById(id: number) {
-  const response = await axios.get(`${backendUrl}/books/${id}`);
-  console.log(response);
-  return response.data.data[0] as singleBook;
+  return handleError(async () => {
+    const response = await axios.get(`${backendUrl}/books/${id}`);
+    return response.data.data[0] as singleBook;
+  });
+}
+
+async function handleError(cb: () => Promise<singleBook>) {
+  try {
+    return await cb();
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      if (error.response?.status) {
+        throw new Error(error.response.data.message);
+      }
+    }
+  }
 }
 
 export async function updateBookStatus({
@@ -62,6 +75,5 @@ export async function createBook(
 ) {
   const response = await axios.post(`${backendUrl}/books`, { ...book });
 
-  console.log("response", response);
   return response.data;
 }

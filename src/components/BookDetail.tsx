@@ -17,6 +17,7 @@ import { MdEdit } from "react-icons/md";
 import { CiTrash } from "react-icons/ci";
 import { ConfirmEditButton } from "../styles/formButtons";
 import Loader from "./Loader";
+import EmptyList from "./EmptyList";
 
 const BookDetail = () => {
   const StyledBookDetail = styled.div`
@@ -124,7 +125,7 @@ const BookDetail = () => {
     }
   `;
 
-  const { book, bookLoading } = useSingleBook();
+  const { book, bookLoading, error } = useSingleBook();
   const { createNoteAsync, creatingNote } = useCreateNote();
 
   const { author, categories, readStatus, title, description, id } = book || {};
@@ -148,7 +149,7 @@ const BookDetail = () => {
     setEditedNoteId(null);
   }
 
-  if (bookLoading || !book) return <Loader />;
+  if (bookLoading) return <Loader />;
 
   return (
     <>
@@ -158,121 +159,125 @@ const BookDetail = () => {
           Go back
         </button>
       </GoBackLink>
-      <StyledBookDetail>
-        <ContainerHeader>
-          <div>
-            <h1>{title}</h1>
-            <Author>
-              by <span>{author}</span>
-            </Author>
-          </div>
-          <div>
-            <ReadStatus readStatus={readStatus || "toRead"}>
-              {readStatusMap[readStatus || "toRead"]}
-            </ReadStatus>
-          </div>
-        </ContainerHeader>
-        <BookDetailDescription>
-          <Categories>
-            {(categories || []).map((category) => (
-              <Category>{category}</Category>
-            ))}
-          </Categories>
-          <Description>
-            <h1>Description</h1>
-            <p>{description}</p>
-          </Description>
-          <Notes>
-            <NotesHeader>
-              <h1>Notes ({(notes || []).length})</h1>
-              <button
-                onClick={() => {
-                  setShowAddNotesForm((prevState) => !prevState);
-                }}
-              >
-                {showAddNotesForm ? <IoIosRemove /> : <IoMdAdd />}
-              </button>
-            </NotesHeader>
-            {showAddNotesForm && (
-              <NotesForm
-                onSubmit={handleSubmit(
-                  async ({ content }: { content: string }) => {
-                    if (!id) throw new Error("Book Id unavailable");
-                    await createNoteAsync({ content, bookId: id });
-                    reset();
-                    return setShowAddNotesForm(false);
-                  }
-                )}
-              >
-                <label htmlFor="note">Tell us your story:</label>
-
-                <textarea
-                  id="note"
-                  rows={5}
-                  cols={33}
-                  placeholder="tell us what you found interesting today..."
-                  {...register("content")}
-                />
-                <ConfirmEditButton type="submit" disabled={creatingNote}>
-                  Add Note
-                </ConfirmEditButton>
-              </NotesForm>
-            )}
+      {error ? (
+        <EmptyList errorMessage={error.message}></EmptyList>
+      ) : (
+        <StyledBookDetail>
+          <ContainerHeader>
             <div>
-              {(notes || [])?.map((note) => {
-                return (
-                  <>
-                    <NoteContent>
-                      <NoteHeader>
-                        <h5>
-                          {new Date(note.createdAt).toDateString()} (
-                          {new Date(note.createdAt).toLocaleTimeString()})
-                        </h5>
-                        <div>
-                          {editedNoteId === note.id || (
-                            <button
-                              onClick={() => {
-                                setEditedNoteId(note.id);
-                                setShowEditNotesForm(true);
-                                setEditedNote(note.content);
-                              }}
-                              disabled={editingNote}
-                            >
-                              <MdEdit />
-                            </button>
-                          )}
-                          <button
-                            onClick={async () => {
-                              if (id)
-                                await deleteNoteAsync({
-                                  bookId: id,
-                                  noteId: note.id,
-                                });
-                            }}
-                            disabled={deletingNote || editingNote}
-                          >
-                            <CiTrash />
-                          </button>
-                        </div>
-                      </NoteHeader>
-                      <p>{note.content}</p>
-                    </NoteContent>
-                    {showEditNotesForm && editedNoteId === note.id && id && (
-                      <NoteForm
-                        formMode="editNote"
-                        hideEditForm={hideEditForm}
-                        noteContent={note.content}
-                        bookId={id}
-                        noteId={note.id}
-                      />
-                    )}
-                  </>
-                );
-              })}
+              <h1>{title}</h1>
+              <Author>
+                by <span>{author}</span>
+              </Author>
             </div>
-          </Notes>
-        </BookDetailDescription>
-      </StyledBookDetail>
+            <div>
+              <ReadStatus readStatus={readStatus || "toRead"}>
+                {readStatusMap[readStatus || "toRead"]}
+              </ReadStatus>
+            </div>
+          </ContainerHeader>
+          <BookDetailDescription>
+            <Categories>
+              {(categories || []).map((category) => (
+                <Category>{category}</Category>
+              ))}
+            </Categories>
+            <Description>
+              <h1>Description</h1>
+              <p>{description}</p>
+            </Description>
+            <Notes>
+              <NotesHeader>
+                <h1>Notes ({(notes || []).length})</h1>
+                <button
+                  onClick={() => {
+                    setShowAddNotesForm((prevState) => !prevState);
+                  }}
+                >
+                  {showAddNotesForm ? <IoIosRemove /> : <IoMdAdd />}
+                </button>
+              </NotesHeader>
+              {showAddNotesForm && (
+                <NotesForm
+                  onSubmit={handleSubmit(
+                    async ({ content }: { content: string }) => {
+                      if (!id) throw new Error("Book Id unavailable");
+                      await createNoteAsync({ content, bookId: id });
+                      reset();
+                      return setShowAddNotesForm(false);
+                    }
+                  )}
+                >
+                  <label htmlFor="note">Tell us your story:</label>
+
+                  <textarea
+                    id="note"
+                    rows={5}
+                    cols={33}
+                    placeholder="tell us what you found interesting today..."
+                    {...register("content")}
+                  />
+                  <ConfirmEditButton type="submit" disabled={creatingNote}>
+                    Add Note
+                  </ConfirmEditButton>
+                </NotesForm>
+              )}
+              <div>
+                {(notes || [])?.map((note) => {
+                  return (
+                    <>
+                      <NoteContent>
+                        <NoteHeader>
+                          <h5>
+                            {new Date(note.createdAt).toDateString()} (
+                            {new Date(note.createdAt).toLocaleTimeString()})
+                          </h5>
+                          <div>
+                            {editedNoteId === note.id || (
+                              <button
+                                onClick={() => {
+                                  setEditedNoteId(note.id);
+                                  setShowEditNotesForm(true);
+                                  setEditedNote(note.content);
+                                }}
+                                disabled={deletingNote || editingNote}
+                              >
+                                <MdEdit />
+                              </button>
+                            )}
+                            <button
+                              onClick={async () => {
+                                if (id)
+                                  await deleteNoteAsync({
+                                    bookId: id,
+                                    noteId: note.id,
+                                  });
+                              }}
+                              disabled={deletingNote || editingNote}
+                            >
+                              <CiTrash />
+                            </button>
+                          </div>
+                        </NoteHeader>
+                        <p>{note.content}</p>
+                      </NoteContent>
+                      {showEditNotesForm && editedNoteId === note.id && id && (
+                        <NoteForm
+                          formMode="editNote"
+                          hideEditForm={hideEditForm}
+                          noteContent={note.content}
+                          bookId={id}
+                          noteId={note.id}
+                        />
+                      )}
+                    </>
+                  );
+                })}
+              </div>
+            </Notes>
+          </BookDetailDescription>
+        </StyledBookDetail>
+      )}
     </>
   );
 };

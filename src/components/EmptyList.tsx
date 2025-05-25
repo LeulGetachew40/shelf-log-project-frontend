@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 import { ImBooks } from "react-icons/im";
-const Empty = () => {
+const Empty = ({ errorMessage }: { errorMessage?: string }) => {
   const EmptyList = styled.div`
     border-radius: 5px;
     padding: 3rem;
@@ -17,8 +17,10 @@ const Empty = () => {
   return (
     <EmptyList>
       <ImBooks />
-      <h3>No Books Found</h3>
-      <p>Add your first book to get started!</p>
+      <h3>No Book(s) Found</h3>
+      <p>
+        {errorMessage ? errorMessage : "Add your first book to get started!"}
+      </p>
     </EmptyList>
   );
 };

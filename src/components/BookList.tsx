@@ -4,11 +4,12 @@ import EmptyList from "./EmptyList";
 import useBooks from "../hooks/useBooks";
 import useFilterBooks from "../hooks/useFilterBooks";
 import Loader from "./Loader";
+import FilterError from "./FilterError";
 
 const BookList = () => {
   const { books, booksLoading } = useBooks();
 
-  const [filteredBooks] = useFilterBooks(books || []);
+  const { error, filterBooks } = useFilterBooks(books || []);
 
   const StyledBookList = styled.div`
     display: grid;
@@ -37,11 +38,14 @@ const BookList = () => {
 
   if (booksLoading) return <Loader />;
 
-  if ((filteredBooks || []).length === 0) return <EmptyList />;
+  if (error && filterBooks === null)
+    return <FilterError errorMessage={error.message} />;
+
+  if (filterBooks.length === 0) return <EmptyList />;
 
   return (
     <StyledBookList>
-      {(filteredBooks || []).map(
+      {(filterBooks || []).map(
         ({ author, categories, readStatus, title, id }) => (
           <BookCard
             id={id}

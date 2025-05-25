@@ -28,7 +28,7 @@ const HomePage = () => {
     <StyledSection>
       <FilterSortAdd />
       <StyledControls>{showForm && <AddBookForm />}</StyledControls>
-      <BookList />
+      {!showForm && <BookList />}
     </StyledSection>
   );
 };

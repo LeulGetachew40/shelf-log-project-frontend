@@ -54,7 +54,6 @@ const Filter = ({
 }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   function handleClick(value: string) {
-    if (searchParams.get("page")) searchParams.set("page", "1");
     searchParams.set(filterParam, value);
     setSearchParams(searchParams);
   }
