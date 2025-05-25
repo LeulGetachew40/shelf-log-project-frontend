@@ -9,6 +9,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import HomePage from "./components/HomePage";
 import BookDetail from "./components/BookDetail";
 import { ShowAddBookProvider } from "./contexts/ShowAddBookContext";
+import PageNotFound from "./components/PageNotFound";
 const App = () => {
   const router = createBrowserRouter([
     {
@@ -20,6 +21,10 @@ const App = () => {
         },
         { path: "/books", element: <HomePage /> },
         { path: "/books/:bookId", element: <BookDetail /> },
+        {
+          path: "*",
+          element: <PageNotFound />,
+        },
       ],
     },
   ]);

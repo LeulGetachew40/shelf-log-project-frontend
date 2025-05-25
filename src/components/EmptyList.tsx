@@ -17,7 +17,7 @@ const Empty = ({ errorMessage }: { errorMessage?: string }) => {
   return (
     <EmptyList>
       <ImBooks />
-      <h3>No Book(s) Found</h3>
+      <h3>No Books Found</h3>
       <p>
         {errorMessage ? errorMessage : "Add your first book to get started!"}
       </p>
