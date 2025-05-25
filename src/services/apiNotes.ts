@@ -1,12 +1,12 @@
 import axios from "axios";
 import { backendUrl } from "./backend";
 
-export type notesType = {
+export type noteType = {
   id: number;
   content: string;
   bookId: number;
   createdAt: string;
-}[];
+};
 
 export async function createNote({
   bookId,
@@ -57,5 +57,5 @@ export async function editNote({
 export async function getNotesByBookId(bookId: number) {
   const response = await axios.get(`${backendUrl}/books/${bookId}/notes`);
 
-  return response.data as notesType;
+  return response.data as noteType[];
 }

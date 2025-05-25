@@ -10,14 +10,10 @@ import { FaChevronLeft } from "react-icons/fa";
 import useCreateNote from "../hooks/useCreateNote";
 import { useForm } from "react-hook-form";
 import useNotes from "../hooks/useNotes";
-import useDeleteNote from "../hooks/useDeleteNote";
-import NoteForm from "./NoteForm";
-import useUpdateNote from "../hooks/useUpdateNote";
-import { MdEdit } from "react-icons/md";
-import { CiTrash } from "react-icons/ci";
 import { ConfirmEditButton } from "../styles/formButtons";
 import Loader from "./Loader";
 import EmptyList from "./EmptyList";
+import Note from "./Note";
 
 const BookDetail = () => {
   const StyledBookDetail = styled.div`
@@ -61,17 +57,6 @@ const BookDetail = () => {
 
   const Notes = styled.div``;
 
-  const NoteContent = styled.div`
-    margin-block: 2.5rem;
-    padding: 2rem;
-    padding-top: 1rem;
-    background-color: var(--color-accent-100);
-
-    & > h5 {
-      margin-bottom: 1rem;
-    }
-  `;
-
   const NotesHeader = styled.div`
     display: flex;
     justify-content: space-between;
@@ -79,22 +64,9 @@ const BookDetail = () => {
     & > button {
       background: none;
       border: none;
+      cursor: pointer;
       & > svg {
         font-size: 3rem;
-      }
-    }
-  `;
-
-  const NoteHeader = styled.div`
-    display: flex;
-    justify-content: space-between;
-    & > div {
-      & > button {
-        background: none;
-        border: none;
-        /* color: red; */
-        cursor: pointer;
-        font-size: 1.5rem;
       }
     }
   `;
@@ -131,23 +103,8 @@ const BookDetail = () => {
   const { author, categories, readStatus, title, description, id } = book || {};
   const { notes } = useNotes();
   const [showAddNotesForm, setShowAddNotesForm] = useState(false);
-  const [showEditNotesForm, setShowEditNotesForm] = useState(false);
-  const [editedNoteId, setEditedNoteId] = useState<number | null>(null);
-  const navigate = useNavigate();
-
   const { handleSubmit, register, reset } = useForm<{ content: string }>();
-
-  const { deleteNoteAsync, isPending: deletingNote } = useDeleteNote();
-  const { isPending: editingNote } = useUpdateNote();
-
-  const [editedNote, setEditedNote] = useState<string>();
-
-  console.log(editedNote);
-
-  function hideEditForm() {
-    setShowEditNotesForm(false);
-    setEditedNoteId(null);
-  }
+  const navigate = useNavigate();
 
   if (bookLoading) return <Loader />;
 
@@ -223,56 +180,11 @@ const BookDetail = () => {
                 </NotesForm>
               )}
               <div>
-                {(notes || [])?.map((note) => {
-                  return (
-                    <>
-                      <NoteContent>
-                        <NoteHeader>
-                          <h5>
-                            {new Date(note.createdAt).toDateString()} (
-                            {new Date(note.createdAt).toLocaleTimeString()})
-                          </h5>
-                          <div>
-                            {editedNoteId === note.id || (
-                              <button
-                                onClick={() => {
-                                  setEditedNoteId(note.id);
-                                  setShowEditNotesForm(true);
-                                  setEditedNote(note.content);
-                                }}
-                                disabled={deletingNote || editingNote}
-                              >
-                                <MdEdit />
-                              </button>
-                            )}
-                            <button
-                              onClick={async () => {
-                                if (id)
-                                  await deleteNoteAsync({
-                                    bookId: id,
-                                    noteId: note.id,
-                                  });
-                              }}
-                              disabled={deletingNote || editingNote}
-                            >
-                              <CiTrash />
-                            </button>
-                          </div>
-                        </NoteHeader>
-                        <p>{note.content}</p>
-                      </NoteContent>
-                      {showEditNotesForm && editedNoteId === note.id && id && (
-                        <NoteForm
-                          formMode="editNote"
-                          hideEditForm={hideEditForm}
-                          noteContent={note.content}
-                          bookId={id}
-                          noteId={note.id}
-                        />
-                      )}
-                    </>
-                  );
-                })}
+                {notes?.length !== 0 &&
+                  id &&
+                  notes?.map((note) => {
+                    return <Note bookId={id} note={note} />;
+                  })}
               </div>
             </Notes>
           </BookDetailDescription>
